@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
-
 const bookauthorSchema = new mongoose.Schema({
-    books:[{
+    book:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"book"
-    }],
-    authors:[{
+    },
+    author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"author"
-    }]
+    }
 });
-bookauthorSchema.index();
+bookauthorSchema.index(); 
 module.exports = mongoose.model("bookauthor",bookauthorSchema);
