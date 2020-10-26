@@ -43,7 +43,6 @@ module.exports.changeAuthor = async (req,res)=>{
             lastname:req.body.lastname,
             street: req.body.street,
             city: req.body.city
-
             // DON'T CHANGE BOOK LIST OF AUTHOR
         });
         return res.status(200).json({message:"Update finished!"});
@@ -57,12 +56,13 @@ module.exports.deleteAuthor = async (req,res)=>{
         if(!currentAuthor) return res.status(403).json({message:"Author not found!!!"});
         for(let bookauthorId of currentAuthor.bookauthors){
             
-            let bookauthorCurrent =  await indexModel.bookauthor.findById({_id:bookauthorId});
+            let bookauthorCurrent =  await indexModel.bookauthor.findById(bookauthorId);
             
+            // pull id cua bookauthor ra khoi book.bookauthors
             await indexModel.book.findByIdAndUpdate({_id:bookauthorCurrent.book},{
                 bookauthors:{$pull:bookauthorCurrent.author}
             });
-            await bookauthorCurrent.deleteOne();
+            await bookauthorCurrent.updateOne({authors:{$pull:req.params.authorId}});
         }
         await currentAuthor.deleteOne();
         return res.status(200).json({message:"Delete author finished!!!"});

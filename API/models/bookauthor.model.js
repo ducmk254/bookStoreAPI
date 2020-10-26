@@ -4,10 +4,10 @@ const bookauthorSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"book"
     },
-    author:{
+    authors:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"author"
-    }
+    }]
 });
 bookauthorSchema.index(); 
 module.exports = mongoose.model("bookauthor",bookauthorSchema);
